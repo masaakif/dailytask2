@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100518090351) do
+ActiveRecord::Schema.define(:version => 20100519093830) do
 
   create_table "tasklist_demos", :force => true do |t|
     t.datetime "registered"
@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(:version => 20100518090351) do
     t.string   "assignee"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "statustext"
+    t.text     "statustext"
     t.string   "status"
     t.string   "clientIP"
     t.integer  "versionnumber"

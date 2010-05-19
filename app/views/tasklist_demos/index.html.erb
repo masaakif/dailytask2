@@ -10,7 +10,7 @@
 <table>
   <tr style="">
     <th width=30>Registered</th>
-    <th>Deadline</th>
+    <th width=30>Deadline</th>
     <th width=350>Description</th>
     <th width=30>要時</th>
     <th>担当</th>
@@ -19,13 +19,14 @@
   </tr>
 
 <% @tasklist_demos.each do |tasklist_demo| %>
+  <% urgent = (tasklist_demo.deadline < DateTime.now ? "urgent" : nil) if tasklist_demo.deadline != nil %>
   <tr class="<%=h tasklist_demo.status == "Closed" ? tasklist_demo.status : tasklist_demo.assignee -%>">
     <td><%=h tasklist_demo.registered.strftime("%Y/%m/%d %H:%M") if tasklist_demo.registered != nil %></td>
-    <td><%=h tasklist_demo.deadline.strftime("%Y/%m/%d") if tasklist_demo.deadline != nil %></td>
+    <td<%= " class='" + urgent +"'" if urgent != nil -%>><%=h tasklist_demo.deadline.strftime("%Y/%m/%d") if tasklist_demo.deadline != nil %></td>
     <td><%=hbr tasklist_demo.descriptiontext %></td>
     <td><%=h tasklist_demo.time_required %> <%=h "hour(s)" if tasklist_demo.time_required %> </td>
     <td><%=h tasklist_demo.assignee %></td>
-    <td><%=h tasklist_demo.statustext %></td>
+    <td><%=hbr tasklist_demo.statustext %></td>
     <td><%=h tasklist_demo.status %></td>
     <td><%= link_to "閲", tasklist_demo %></td>
     <td><%= link_to '編', edit_tasklist_demo_path(tasklist_demo) %></td>

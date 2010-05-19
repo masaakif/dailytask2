@@ -75,6 +75,9 @@ class TasklistDemosController < ApplicationController
     if params[:tasklist_demo][:registered] == nil
       params[:tasklist_demo].store("registered", DateTime.now)
     end
+    if params[:tasklist_demo][:clientIP] == nil
+      params[:tasklist_demo].store("clientIP", request.env["REMOTE_ADDR"])
+    end
     @tasklist_demo = TasklistDemo.new(params[:tasklist_demo])
 
     respond_to do |format|
@@ -92,6 +95,7 @@ class TasklistDemosController < ApplicationController
   # PUT /tasklist_demos/1
   # PUT /tasklist_demos/1.xml
   def update
+    params[:tasklist_demo].store("clientIP", request.env["REMOTE_ADDR"])
     @tasklist_demo = TasklistDemo.find(params[:id])
 
     respond_to do |format|

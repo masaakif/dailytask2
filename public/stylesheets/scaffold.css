@@ -1,4 +1,4 @@
-body { background-color: #fff; color: #333; }
+body { background-color: #f33; color: #333; }
 
 body, p, ol, ul, td {
   font-family: verdana, arial, helvetica, sans-serif;
@@ -58,6 +58,10 @@ table,th, tr,td {
   empty-cells: show;
 }
 
+tr, th {
+  background-color: #ffefdf;
+}
+
 tr.MF {
   background-color: #99ee99;
 }
@@ -68,6 +72,11 @@ tr.NF {
 
 tr.YT {
   background-color: #ee99ee;
+}
+
+td.urgent {
+  background-color: #ff0000;
+  font-weight: bold;
 }
 
 tr.Closed {
