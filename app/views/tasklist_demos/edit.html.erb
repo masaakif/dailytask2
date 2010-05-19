@@ -1,0 +1,41 @@
+<h1>Editing tasklist_demo</h1>
+
+<% form_for(@tasklist_demo) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :registered %> :
+    <%= f.text_field :registered, :value => @tasklist_demo.registered.strftime("%Y/%m/%d %H:%M:%S") %>
+  </p>
+  <p>
+    <%= f.label :deadline %> :
+    <%= f.text_field :deadline, :value => @tasklist_demo.deadline != nil ? @tasklist_demo.deadline.strftime("%Y/%m/%d") : "" %>
+  </p>
+  <p>
+    <%= f.label :description %><br />
+    <%= f.text_area :descriptiontext, :rows => 10 %>
+  </p>
+  <p>
+    <%= f.label :time_required %> :
+    <%= f.text_field :time_required , :size => 4%> (hour)
+  </p>
+  <p>
+    <%= f.label :assignee %> :
+    <%= f.text_field :assignee %>
+  </p>
+  <hr>
+  <p>
+    <%= f.label :statustext %><br />
+    <%= f.text_field :statustext , :max_length => 250,  :size => 80 %>
+  </p>
+  <p>
+    <%= f.label :status %><br />
+    <%= f.text_field :status %>
+  </p>
+  <p>
+    <%= f.submit 'Update' , :disable_with => "Sending..." %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @tasklist_demo %> |
+<%= link_to 'Back', tasklist_demos_path %>

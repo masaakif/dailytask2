@@ -1,0 +1,37 @@
+<p>
+  <b>Registered:</b>
+  <%=h @tasklist_demo.registered.strftime("%Y/%m/%d %H:%M:%S") %>
+</p>
+
+<p>
+  <b>Deadline:</b>
+  <%=h @tasklist_demo.deadline.strftime("%Y/%m/%d") if @tasklist_demo.deadline != nil %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=hbr @tasklist_demo.descriptiontext %>
+</p>
+
+<p>
+  <b>Time required:</b>
+  <%=h @tasklist_demo.time_required %> (hour)
+</p>
+
+<p>
+  <b>Assignee:</b>
+  <%=h @tasklist_demo.assignee %>
+</p>
+
+<p>
+  <b>StatusText:</b>
+  <%=h @tasklist_demo.statustext %>
+</p>
+<p>
+  <b>Status:</b>
+  <%=h @tasklist_demo.status %>
+</p>
+
+<%= link_to 'Edit', edit_tasklist_demo_path(@tasklist_demo) %> |
+<%= link_to 'Back', tasklist_demos_path %> |
+<%= link_to 'New tasklist_demo', new_tasklist_demo_path %>

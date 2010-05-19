@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  registered: 2010-05-18 13:19:49
+  deadline: 2010-05-18 13:19:49
+  description: MyString
+  time_required: 1.5
+  assignee: MyString
+
+two:
+  registered: 2010-05-18 13:19:49
+  deadline: 2010-05-18 13:19:49
+  description: MyString
+  time_required: 1.5
+  assignee: MyString

@@ -1,0 +1,49 @@
+<h1>Listing tasklist_demos</h1>
+
+<%= link_to 'New tasklist_demo', new_tasklist_demo_path %> |
+<% if @filter == "Active" %>
+  <%= link_to 'Closed', {:controller => "tasklist_demos", :action => "index", :params => {:filter => "Closed"}} %>
+<% elsif @filter == "Closed" %>
+  <%= link_to 'Active', {:controller => "tasklist_demos", :action => "index"} %>
+<% end %>
+<br/><br/>
+<table>
+  <tr style="">
+    <th width=30>Registered</th>
+    <th>Deadline</th>
+    <th width=350>Description</th>
+    <th width=30>要時</th>
+    <th>担当</th>
+    <th width=150>Status Text</th>
+    <th>Status</th>
+  </tr>
+
+<% @tasklist_demos.each do |tasklist_demo| %>
+  <tr class="<%=h tasklist_demo.status == "Closed" ? tasklist_demo.status : tasklist_demo.assignee -%>">
+    <td><%=h tasklist_demo.registered.strftime("%Y/%m/%d %H:%M") if tasklist_demo.registered != nil %></td>
+    <td><%=h tasklist_demo.deadline.strftime("%Y/%m/%d") if tasklist_demo.deadline != nil %></td>
+    <td><%=hbr tasklist_demo.descriptiontext %></td>
+    <td><%=h tasklist_demo.time_required %> <%=h "hour(s)" if tasklist_demo.time_required %> </td>
+    <td><%=h tasklist_demo.assignee %></td>
+    <td><%=h tasklist_demo.statustext %></td>
+    <td><%=h tasklist_demo.status %></td>
+    <td><%= link_to "閲", tasklist_demo %></td>
+    <td><%= link_to '編', edit_tasklist_demo_path(tasklist_demo) %></td>
+    <% if @filter == "Active" %>
+      <td><%= link_to '閉', {:controller => "tasklist_demos", :action => "close", :id => tasklist_demo.id} %></td>
+    <% elsif @filter == "Closed" %>
+      <td><%= link_to '開', {:controller => "tasklist_demos", :action => "reopen", :id => tasklist_demo.id} %></td>
+    <% end %>
+    <td><%= link_to '捨', tasklist_demo, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New tasklist_demo', new_tasklist_demo_path %> |
+<% if @filter == "Active" %>
+  <%= link_to 'Closed', {:controller => "tasklist_demos", :action => "index", :params => {:filter => "Closed"}} %>
+<% elsif @filter == "Closed" %>
+  <%= link_to 'Active', {:controller => "tasklist_demos", :action => "index"} %>
+<% end %>
