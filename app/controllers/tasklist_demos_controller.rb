@@ -4,12 +4,11 @@ class TasklistDemosController < ApplicationController
   def index
     if params == nil or params[:filter] == nil
       @tasklist_demos = TasklistDemo.find(:all, :conditions => ["status != 'Closed' or status is null"],
-                                         :order => "assignee DESC")
+                                         :order => "assignee DESC, deadline ASC")
       @filter = "Active"
     else
       puts params[:filter]
-      @tasklist_demos = TasklistDemo.find(:all, :conditions => ["status = '" + params[:filter] + "'"],
-                                         :order => "assignee DESC")
+      @tasklist_demos = TasklistDemo.find(:all, :conditions => ["status = '" + params[:filter] + "'"])
       @filter = "Active"
       @filter = "Closed"
     end
