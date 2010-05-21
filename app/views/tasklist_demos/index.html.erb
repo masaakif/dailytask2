@@ -23,7 +23,7 @@
   <tr class="<%=h tasklist_demo.status == "Closed" ? tasklist_demo.status : tasklist_demo.assignee -%>">
     <td><%=h tasklist_demo.registered.strftime("%Y/%m/%d %H:%M") if tasklist_demo.registered? %></td>
     <td<%= " class='" + urgent +"'" if urgent != nil -%>><%=h tasklist_demo.deadline.strftime("%Y/%m/%d") if tasklist_demo.deadline? %></td>
-    <td><%=hbr tasklist_demo.descriptiontext %></td>
+    <td><%=hbr tasklist_demo.description%></td>
     <td><%=h tasklist_demo.time_required %> <%=h "hour(s)" if tasklist_demo.time_required %> </td>
     <td><%=h tasklist_demo.assignee %></td>
     <td><%=hbr tasklist_demo.statustext %></td>

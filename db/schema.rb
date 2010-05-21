@@ -9,12 +9,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100519093830) do
+ActiveRecord::Schema.define(:version => 20100521102851) do
 
   create_table "tasklist_demos", :force => true do |t|
     t.datetime "registered"
     t.datetime "deadline"
-    t.string   "description"
     t.float    "time_required"
     t.string   "assignee"
     t.datetime "created_at"
@@ -23,7 +22,9 @@ ActiveRecord::Schema.define(:version => 20100519093830) do
     t.string   "status"
     t.string   "clientIP"
     t.integer  "versionnumber"
-    t.text     "descriptiontext"
+    t.text     "description"
+    t.string   "created_by"
+    t.string   "updated_by"
   end
 
 end

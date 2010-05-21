@@ -1,0 +1,164 @@
+diff --git a/app/controllers/tasklist_demos_controller.rb b/app/controllers/tasklist_demos_controller.rb
+index 2a3c66a..991b3cd 100644
+--- a/app/controllers/tasklist_demos_controller.rb
++++ b/app/controllers/tasklist_demos_controller.rb
+@@ -73,10 +73,10 @@ class TasklistDemosController < ApplicationController
+   # POST /tasklist_demos
+   # POST /tasklist_demos.xml
+   def create
+-    if params[:tasklist_demo][:registered] != nil
++    if params[:tasklist_demo][:registered] == nil
+       params[:tasklist_demo].store("registered", DateTime.now)
+     end
+-    if params[:tasklist_demo][:clientIP] != nil
++    if params[:tasklist_demo][:clientIP] == nil
+       params[:tasklist_demo].store("clientIP", request.env["REMOTE_ADDR"])
+     end
+     @tasklist_demo = TasklistDemo.new(params[:tasklist_demo])
+diff --git a/diff.txt b/diff.txt
+index 853c9ee..e69de29 100644
+--- a/diff.txt
++++ b/diff.txt
+@@ -1,142 +0,0 @@
+-diff --git a/app/controllers/tasklist_demos_controller.rb b/app/controllers/tasklist_demos_controller.rb
+-index 3aca3ae..2a3c66a 100644
+---- a/app/controllers/tasklist_demos_controller.rb
+-+++ b/app/controllers/tasklist_demos_controller.rb
+-@@ -3,14 +3,15 @@ class TasklistDemosController < ApplicationController
+-   # GET /tasklist_demos.xml
+-   def index
+-     if params == nil or params[:filter] == nil
+--      @tasklist_demos = TasklistDemo.find(:all, :conditions => ["status != 'Closed' or status is null"],
+--                                         :order => "assignee DESC, deadline ASC")
+-+      @tasklist_demos = TasklistDemo.find(:all, 
+-+                                          :conditions => ["status != 'Closed' or status is null"],
+-+                                          :order => "assignee DESC, deadline ASC")
+-       @filter = "Active"
+-     else
+--      puts params[:filter]
+--      @tasklist_demos = TasklistDemo.find(:all, :conditions => ["status = '" + params[:filter] + "'"])
+--      @filter = "Active"
+--      @filter = "Closed"
+-+      if params[:filter] == "Closed"
+-+        @tasklist_demos = TasklistDemo.find(:all, :conditions => ["status = '" + params[:filter] + "'"])
+-+        @filter = "Closed"
+-+      end
+-     end
+- 
+-     respond_to do |format|
+-@@ -47,9 +48,10 @@ class TasklistDemosController < ApplicationController
+-   end
+- 
+-   def change_status(tasklist_demo, status)
+-+    puts status
+-     tasklist_demo.status = status
+--    if tasklist_demo.statustext != nil
+--      tasklist_demo.statustext = tasklist_demo.statustext + " " + status + " " + DateTime.now.strftime("%Y/%m/%d %H:%M")
+-+    if tasklist_demo.statustext?
+-+      tasklist_demo.statustext = tasklist_demo.statustext + "\r\n" + status + " " + DateTime.now.strftime("%Y/%m/%d %H:%M")
+-     else
+-       tasklist_demo.statustext = status + " " + DateTime.now.strftime("%Y/%m/%d %H:%M")
+-     end
+-@@ -71,10 +73,10 @@ class TasklistDemosController < ApplicationController
+-   # POST /tasklist_demos
+-   # POST /tasklist_demos.xml
+-   def create
+--    if params[:tasklist_demo][:registered] == nil
+-+    if params[:tasklist_demo][:registered] != nil
+-       params[:tasklist_demo].store("registered", DateTime.now)
+-     end
+--    if params[:tasklist_demo][:clientIP] == nil
+-+    if params[:tasklist_demo][:clientIP] != nil
+-       params[:tasklist_demo].store("clientIP", request.env["REMOTE_ADDR"])
+-     end
+-     @tasklist_demo = TasklistDemo.new(params[:tasklist_demo])
+-@@ -120,4 +122,8 @@ class TasklistDemosController < ApplicationController
+-       format.xml  { head :ok }
+-     end
+-   end
+-+
+-+  private
+-+  def archive(tasklist_demo)
+-+  end
+- end
+-diff --git a/app/views/tasklist_demos/edit.html.erb b/app/views/tasklist_demos/edit.html.erb
+-index 7094cc9..de85359 100644
+---- a/app/views/tasklist_demos/edit.html.erb
+-+++ b/app/views/tasklist_demos/edit.html.erb
+-@@ -13,7 +13,7 @@
+-   </p>
+-   <p>
+-     <%= f.label :description %><br />
+--    <%= f.text_area :descriptiontext, :rows => 10 %>
+-+    <%= f.text_area :description, :rows => 10 %>
+-   </p>
+-   <p>
+-     <%= f.label :time_required %> :
+-diff --git a/app/views/tasklist_demos/index.html.erb b/app/views/tasklist_demos/index.html.erb
+-index 63e69c9..ac9e158 100644
+---- a/app/views/tasklist_demos/index.html.erb
+-+++ b/app/views/tasklist_demos/index.html.erb
+-@@ -23,7 +23,7 @@
+-   <tr class="<%=h tasklist_demo.status == "Closed" ? tasklist_demo.status : tasklist_demo.assignee -%>">
+-     <td><%=h tasklist_demo.registered.strftime("%Y/%m/%d %H:%M") if tasklist_demo.registered? %></td>
+-     <td<%= " class='" + urgent +"'" if urgent != nil -%>><%=h tasklist_demo.deadline.strftime("%Y/%m/%d") if tasklist_demo.deadline? %></td>
+--    <td><%=hbr tasklist_demo.descriptiontext %></td>
+-+    <td><%=hbr tasklist_demo.description%></td>
+-     <td><%=h tasklist_demo.time_required %> <%=h "hour(s)" if tasklist_demo.time_required %> </td>
+-     <td><%=h tasklist_demo.assignee %></td>
+-     <td><%=hbr tasklist_demo.statustext %></td>
+-diff --git a/app/views/tasklist_demos/new.html.erb b/app/views/tasklist_demos/new.html.erb
+-index 7eb2d2f..47c967a 100644
+---- a/app/views/tasklist_demos/new.html.erb
+-+++ b/app/views/tasklist_demos/new.html.erb
+-@@ -13,7 +13,7 @@
+-   </p>
+-   <p>
+-     <%= f.label :description %><br />
+--    <%= f.text_area :descriptiontext, :rows => 10 %>
+-+    <%= f.text_area :description, :rows => 10 %>
+-   </p>
+-   <p>
+-     <%= f.label :time_required %> :
+-diff --git a/app/views/tasklist_demos/show.html.erb b/app/views/tasklist_demos/show.html.erb
+-index 5e21894..667bdb6 100644
+---- a/app/views/tasklist_demos/show.html.erb
+-+++ b/app/views/tasklist_demos/show.html.erb
+-@@ -9,7 +9,7 @@
+-   </tr>
+-   <tr>
+-     <td>Description:</td>
+--    <td><%=hbr @tasklist_demo.descriptiontext %></td>
+-+    <td><%=hbr @tasklist_demo.description %></td>
+-   </tr>
+-   <tr>
+-     <td>所要時間</td>
+-diff --git a/db/schema.rb b/db/schema.rb
+-index c009bf2..ffe8312 100644
+---- a/db/schema.rb
+-+++ b/db/schema.rb
+-@@ -9,12 +9,11 @@
+- #
+- # It's strongly recommended to check this file into your version control system.
+- 
+--ActiveRecord::Schema.define(:version => 20100519093830) do
+-+ActiveRecord::Schema.define(:version => 20100521102851) do
+- 
+-   create_table "tasklist_demos", :force => true do |t|
+-     t.datetime "registered"
+-     t.datetime "deadline"
+--    t.string   "description"
+-     t.float    "time_required"
+-     t.string   "assignee"
+-     t.datetime "created_at"
+-@@ -23,7 +22,9 @@ ActiveRecord::Schema.define(:version => 20100519093830) do
+-     t.string   "status"
+-     t.string   "clientIP"
+-     t.integer  "versionnumber"
+--    t.text     "descriptiontext"
+-+    t.text     "description"
+-+    t.string   "created_by"
+-+    t.string   "updated_by"
+-   end
+- 
+- end

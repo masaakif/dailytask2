@@ -3,14 +3,15 @@ class TasklistDemosController < ApplicationController
   # GET /tasklist_demos.xml
   def index
     if params == nil or params[:filter] == nil
-      @tasklist_demos = TasklistDemo.find(:all, :conditions => ["status != 'Closed' or status is null"],
-                                         :order => "assignee DESC, deadline ASC")
+      @tasklist_demos = TasklistDemo.find(:all, 
+                                          :conditions => ["status != 'Closed' or status is null"],
+                                          :order => "assignee DESC, deadline ASC")
       @filter = "Active"
     else
-      puts params[:filter]
-      @tasklist_demos = TasklistDemo.find(:all, :conditions => ["status = '" + params[:filter] + "'"])
-      @filter = "Active"
-      @filter = "Closed"
+      if params[:filter] == "Closed"
+        @tasklist_demos = TasklistDemo.find(:all, :conditions => ["status = '" + params[:filter] + "'"])
+        @filter = "Closed"
+      end
     end
 
     respond_to do |format|
@@ -47,9 +48,10 @@ class TasklistDemosController < ApplicationController
   end
 
   def change_status(tasklist_demo, status)
+    puts status
     tasklist_demo.status = status
-    if tasklist_demo.statustext != nil
-      tasklist_demo.statustext = tasklist_demo.statustext + " " + status + " " + DateTime.now.strftime("%Y/%m/%d %H:%M")
+    if tasklist_demo.statustext?
+      tasklist_demo.statustext = tasklist_demo.statustext + "\r\n" + status + " " + DateTime.now.strftime("%Y/%m/%d %H:%M")
     else
       tasklist_demo.statustext = status + " " + DateTime.now.strftime("%Y/%m/%d %H:%M")
     end
@@ -119,5 +121,9 @@ class TasklistDemosController < ApplicationController
       format.html { redirect_to(tasklist_demos_url) }
       format.xml  { head :ok }
     end
+  end
+
+  private
+  def archive(tasklist_demo)
   end
 end
