@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100521102851) do
+ActiveRecord::Schema.define(:version => 20100521105419) do
 
   create_table "tasklist_demos", :force => true do |t|
     t.datetime "registered"
@@ -26,5 +26,7 @@ ActiveRecord::Schema.define(:version => 20100521102851) do
     t.string   "created_by"
     t.string   "updated_by"
   end
+
+  add_index "tasklist_demos", ["status"], :name => "index_tasklist_demos_on_status"
 
 end
