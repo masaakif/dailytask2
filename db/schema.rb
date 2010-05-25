@@ -9,7 +9,25 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100521105419) do
+ActiveRecord::Schema.define(:version => 20100525123922) do
+
+  create_table "tasklist_archives", :force => true do |t|
+    t.integer  "tasklist_demo_id"
+    t.datetime "registered"
+    t.datetime "deadline"
+    t.float    "time_required"
+    t.string   "assignee"
+    t.datetime "original_created_at"
+    t.datetime "original_updated_at"
+    t.text     "statustext"
+    t.string   "status"
+    t.integer  "versionnumber"
+    t.text     "description"
+    t.string   "created_by"
+    t.string   "updated_by"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "tasklist_demos", :force => true do |t|
     t.datetime "registered"
@@ -20,7 +38,6 @@ ActiveRecord::Schema.define(:version => 20100521105419) do
     t.datetime "updated_at"
     t.text     "statustext"
     t.string   "status"
-    t.string   "clientIP"
     t.integer  "versionnumber"
     t.text     "description"
     t.string   "created_by"

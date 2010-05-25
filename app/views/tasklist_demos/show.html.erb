@@ -29,10 +29,20 @@
   </tr>
   <tr>
     <td>最終更新者</td>
-    <td><%=h @tasklist_demo.clientIP %></td>
+    <% if @tasklist_demo.updated_by? %>
+      <td><%=h @tasklist_demo.updated_by %></td>
+    <% else %>
+      <td><%=h @tasklist_demo.created_by %></td>
+    <% end %>
   </tr>
 </table>
 <br/>
 <%= link_to 'Edit', edit_tasklist_demo_path(@tasklist_demo) %> |
-<%= link_to 'Back', tasklist_demos_path %> |
+<%= link_to 'List', tasklist_demos_path %> |
+<% if @tasklist_demo.status != "Closed" %>
+  <%= link_to 'Close', {:controller => "tasklist_demos", :action => "close", :id => @tasklist_demo.id} %><br/>
+<% elsif @tasklist_demo.status == "Closed" %>
+  <%= link_to 'Reopen', {:controller => "tasklist_demos", :action => "reopen", :id => @tasklist_demo.id} %><br/>
+<% end %>
 <%= link_to 'New tasklist_demo', new_tasklist_demo_path %>
+

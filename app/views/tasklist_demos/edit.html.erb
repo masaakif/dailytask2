@@ -9,7 +9,7 @@
   </p>
   <p>
     <%= f.label :deadline %> :
-    <%= f.text_field :deadline, :value => @tasklist_demo.deadline != nil ? @tasklist_demo.deadline.strftime("%Y/%m/%d") : "" %>
+    <%= f.text_field :deadline, :value => @tasklist_demo.deadline != nil ? @tasklist_demo.deadline.strftime("%Y/%m/%d") : "" %> 
   </p>
   <p>
     <%= f.label :description %><br />
@@ -38,4 +38,4 @@
 <% end %>
 
 <%= link_to 'Show', @tasklist_demo %> |
-<%= link_to 'Back', tasklist_demos_path %>
+<%= link_to 'List', tasklist_demos_path %>

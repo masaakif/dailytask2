@@ -47,17 +47,6 @@ class TasklistDemosController < ApplicationController
     @tasklist_demo = TasklistDemo.find(params[:id])
   end
 
-  def change_status(tasklist_demo, status)
-    puts status
-    tasklist_demo.status = status
-    if tasklist_demo.statustext?
-      tasklist_demo.statustext = tasklist_demo.statustext + "\r\n" + status + " " + DateTime.now.strftime("%Y/%m/%d %H:%M")
-    else
-      tasklist_demo.statustext = status + " " + DateTime.now.strftime("%Y/%m/%d %H:%M")
-    end
-    tasklist_demo.save
-  end
-
   def close
     tasklist_demo = TasklistDemo.find(params[:id])
     change_status(tasklist_demo, "Closed")
@@ -73,15 +62,12 @@ class TasklistDemosController < ApplicationController
   # POST /tasklist_demos
   # POST /tasklist_demos.xml
   def create
-    if params[:tasklist_demo][:registered] == nil
-      params[:tasklist_demo].store("registered", DateTime.now)
-    end
-    if params[:tasklist_demo][:clientIP] == nil
-      params[:tasklist_demo].store("clientIP", request.env["REMOTE_ADDR"])
-    end
+    params[:tasklist_demo][:registered] ||= DateTime.now
+    params[:tasklist_demo][:created_by] ||= request.env["REMOTE_ADDR"]
     @tasklist_demo = TasklistDemo.new(params[:tasklist_demo])
 
     respond_to do |format|
+      archive(@tasklist_demo)
       if @tasklist_demo.save
         flash[:notice] = 'TasklistDemo was successfully created.'
         format.html { redirect_to(@tasklist_demo) }
@@ -96,10 +82,11 @@ class TasklistDemosController < ApplicationController
   # PUT /tasklist_demos/1
   # PUT /tasklist_demos/1.xml
   def update
-    params[:tasklist_demo].store("clientIP", request.env["REMOTE_ADDR"])
+    params[:tasklist_demo].store("updated_by", request.env["REMOTE_ADDR"])
     @tasklist_demo = TasklistDemo.find(params[:id])
 
     respond_to do |format|
+      archive(@tasklist_demo)
       if @tasklist_demo.update_attributes(params[:tasklist_demo])
         flash[:notice] = 'TasklistDemo was successfully updated.'
         format.html { redirect_to(@tasklist_demo) }
@@ -125,5 +112,22 @@ class TasklistDemosController < ApplicationController
 
   private
   def archive(tasklist_demo)
+    if tasklist_demo[:id] != nil
+      tasklist_archive = TasklistArchive.new(tasklist_demo.attributes)
+      tasklist_archive.tasklist_demo = tasklist_demo
+      tasklist_archive.save
+    end
   end
+
+  def change_status(tasklist_demo, status)
+    archive(tasklist_demo)
+    tasklist_demo.status = status
+    if tasklist_demo.statustext?
+      tasklist_demo.statustext = tasklist_demo.statustext + "\r\n" + status + " " + DateTime.now.strftime("%Y/%m/%d %H:%M")
+    else
+      tasklist_demo.statustext = status + " " + DateTime.now.strftime("%Y/%m/%d %H:%M")
+    end
+    tasklist_demo.save
+  end
+
 end
