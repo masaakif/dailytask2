@@ -1,11 +1,12 @@
 <h1>Listing tasklist_demos</h1>
 
 <%= link_to 'New tasklist_demo', new_tasklist_demo_path %> |
-<% if @filter == "Active" %>
-  <%= link_to 'Closed', {:controller => "tasklist_demos", :action => "index", :params => {:filter => "Closed"}} %>
-<% elsif @filter == "Closed" %>
-  <%= link_to 'Active', {:controller => "tasklist_demos", :action => "index"} %>
-<% end %>
+<% if session[:filter] == "Active" 
+     filter = "Closed"
+   else
+     filter = "Active"
+   end %>
+<%= link_to filter, {:controller => "tasklist_demos", :action => "index", :params => {:filter => filter}} %>
 <br/><br/>
 <table>
   <tr style="">
@@ -30,9 +31,9 @@
     <td><%=h tasklist_demo.status %></td>
     <td><%= link_to "閲", tasklist_demo %></td>
     <td><%= link_to '編', edit_tasklist_demo_path(tasklist_demo) %></td>
-    <% if @filter == "Active" %>
+    <% if session[:filter] == "Active" %>
       <td><%= link_to '閉', {:controller => "tasklist_demos", :action => "close", :id => tasklist_demo.id} %></td>
-    <% elsif @filter == "Closed" %>
+    <% elsif session[:filter] == "Closed" %>
       <td><%= link_to '開', {:controller => "tasklist_demos", :action => "reopen", :id => tasklist_demo.id} %></td>
     <% end %>
     <td><%= link_to '捨', tasklist_demo, :confirm => 'Are you sure?', :method => :delete %></td>
@@ -43,8 +44,4 @@
 <br />
 
 <%= link_to 'New tasklist_demo', new_tasklist_demo_path %> |
-<% if @filter == "Active" %>
-  <%= link_to 'Closed', {:controller => "tasklist_demos", :action => "index", :params => {:filter => "Closed"}} %>
-<% elsif @filter == "Closed" %>
-  <%= link_to 'Active', {:controller => "tasklist_demos", :action => "index"} %>
-<% end %>
+<%= link_to filter, {:controller => "tasklist_demos", :action => "index", :params => {:filter => filter}} %>

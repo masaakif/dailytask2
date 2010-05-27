@@ -2,16 +2,18 @@ class TasklistDemosController < ApplicationController
   # GET /tasklist_demos
   # GET /tasklist_demos.xml
   def index
-    if params == nil or params[:filter] == nil
+    if params[:filter] || session[:filter] == nil
+      session[:filter] = (params[:filter] ? params[:filter] : "Active")
+    end
+
+    if session[:filter] == "Active"
       @tasklist_demos = TasklistDemo.find(:all, 
                                           :conditions => ["status != 'Closed' or status is null"],
                                           :order => "assignee DESC, deadline ASC")
-      @filter = "Active"
     else
-      if params[:filter] == "Closed"
-        @tasklist_demos = TasklistDemo.find(:all, :conditions => ["status = '" + params[:filter] + "'"])
-        @filter = "Closed"
-      end
+      @tasklist_demos = TasklistDemo.find(:all, 
+                                          :conditions => ["status = '" + session[:filter] + "'"],
+                                          :order => "updated_at ASC")
     end
 
     respond_to do |format|
