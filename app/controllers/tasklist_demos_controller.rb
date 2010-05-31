@@ -49,6 +49,30 @@ class TasklistDemosController < ApplicationController
     @tasklist_demo = TasklistDemo.find(params[:id])
   end
 
+  def done_submit_template
+    tasklist_demo = TasklistDemo.find(params[:id])
+    change_status(tasklist_demo, "", "Submit Template")
+    redirect_to :back
+  end
+
+  def done_check_on_test
+    tasklist_demo = TasklistDemo.find(params[:id])
+    change_status(tasklist_demo, "", "Checked Test Env")
+    redirect_to :back
+  end
+
+  def done_check_on_prod
+    tasklist_demo = TasklistDemo.find(params[:id])
+    change_status(tasklist_demo, "", "Checked Prod Env")
+    redirect_to :back
+  end
+
+  def done_broker_test
+    tasklist_demo = TasklistDemo.find(params[:id])
+    change_status(tasklist_demo, "", "Complete Broker Test")
+    redirect_to :back
+  end
+
   def close
     tasklist_demo = TasklistDemo.find(params[:id])
     change_status(tasklist_demo, "Closed")
@@ -121,13 +145,14 @@ class TasklistDemosController < ApplicationController
     end
   end
 
-  def change_status(tasklist_demo, status)
+  def change_status(tasklist_demo, status, statustext = status)
     archive(tasklist_demo)
-    tasklist_demo.status = status
+    tasklist_demo.status = status if status
+    tasklist_demo.updated_by = request.env["REMOTE_ADDR"]
     if tasklist_demo.statustext?
-      tasklist_demo.statustext = tasklist_demo.statustext + "\r\n" + status + " " + DateTime.now.strftime("%Y/%m/%d %H:%M")
+      tasklist_demo.statustext = tasklist_demo.statustext + "\r\n" + statustext + " " + DateTime.now.strftime("%Y/%m/%d %H:%M") + " (" + tasklist_demo.updated_by + ")"
     else
-      tasklist_demo.statustext = status + " " + DateTime.now.strftime("%Y/%m/%d %H:%M")
+      tasklist_demo.statustext = statustext + " " + DateTime.now.strftime("%Y/%m/%d %H:%M") + " (" + tasklist_demo.updated_by + ")"
     end
     tasklist_demo.save
   end

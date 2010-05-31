@@ -38,9 +38,14 @@
 </table>
 <br/>
 <%= link_to 'Edit', edit_tasklist_demo_path(@tasklist_demo) %> |
-<%= link_to 'List', tasklist_demos_path %> |
+<%= link_to 'List', tasklist_demos_path %> <br/> 
 <% if @tasklist_demo.status != "Closed" %>
-  <%= link_to 'Close', {:controller => "tasklist_demos", :action => "close", :id => @tasklist_demo.id} %><br/>
+  <%= link_to 'Close', {:controller => "tasklist_demos", :action => "close", :id => @tasklist_demo.id} %> |
+  <%= link_to 'Submit Template', {:controller => "tasklist_demos", :action => "done_submit_template", :id => @tasklist_demo.id} %> |
+  <%= link_to 'Checked Test Env', {:controller => "tasklist_demos", :action => "done_check_on_test", :id => @tasklist_demo.id} %> |
+  <%= link_to 'Checked Prod Env', {:controller => "tasklist_demos", :action => "done_check_on_prod", :id => @tasklist_demo.id} %> |
+  <%= link_to 'Complete Broker Test', {:controller => "tasklist_demos", :action => "done_broker_test", :id => @tasklist_demo.id} %> <br/>
+
 <% elsif @tasklist_demo.status == "Closed" %>
   <%= link_to 'Reopen', {:controller => "tasklist_demos", :action => "reopen", :id => @tasklist_demo.id} %><br/>
 <% end %>
