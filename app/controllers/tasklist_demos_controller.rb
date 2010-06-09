@@ -1,4 +1,6 @@
 class TasklistDemosController < ApplicationController
+  # before_filter :login_required
+
   # GET /tasklist_demos
   # GET /tasklist_demos.xml
   def index

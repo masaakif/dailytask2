@@ -1,0 +1,33 @@
+<h1>Listing tasklist_demos</h1>
+
+<%= link_to "Task List", tasklist_demos_path %> | 
+<%= link_to 'New user', new_user_path %>
+<table>
+  <tr style="">
+    <th>Login</th>
+    <th>E-mail</th>
+    <th>Name</th>
+    <th>Japanese Name</th>
+    <th>IP Address</th>
+    <th>Expired At</th>
+  </tr>
+
+<% @users.each do |user| %>
+  <tr>
+    <td><%=h user.login %></td>
+    <td><%=h user.email %></td>
+    <td><%=h user.name %></td>
+    <td><%=h user.japanese_name %></td>
+    <td><%=h user.client_ip %></td>
+    <td><%=h user.remember_token_expires_at %></td>
+    <td><%= link_to "View", user %></td>
+    <td><%= link_to 'Edit', edit_user_path(user) %></td>
+    <td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to "Task List", tasklist_demos_path %> | 
+<%= link_to 'New user', new_user_path %>
