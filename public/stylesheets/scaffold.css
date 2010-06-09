@@ -52,25 +52,25 @@ a:hover { color: #fff; background-color:#000; }
   list-style: square;
 }
 
-table,th, tr,td {
+table, th, tr,td {
   border: 1px solid;
   border-collapse: collapse;
   empty-cells: show;
 }
 
-tr, th {
+table {
   background-color: #ffefdf;
 }
 
-tr.MF {
+table.MF, tr.MF {
   background-color: #99ee99;
 }
 
-tr.NF {
+table.NF, tr.NF {
   background-color: pink;
 }
 
-tr.YT {
+table.YT, tr.YT {
   background-color: #ee99ee;
 }
 
@@ -79,6 +79,6 @@ td.urgent {
   font-weight: bold;
 }
 
-tr.Closed {
+table.Closed, tr.Closed {
   background-color: darkgray;
 }

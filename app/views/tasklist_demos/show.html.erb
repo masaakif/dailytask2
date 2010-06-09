@@ -1,4 +1,4 @@
-<table>
+<table class="<%=h @tasklist_demo.status == "Closed" ? @tasklist_demo.status : @tasklist_demo.assignee -%>">
   <tr>
     <td>Registered:</td>
     <td><%=h @tasklist_demo.registered.strftime("%Y/%m/%d %H:%M:%S") %></td>
