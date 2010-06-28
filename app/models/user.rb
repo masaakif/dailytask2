@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :login, :email, :name, :password, :password_confirmation, :japanese_name, :client_ip
+  attr_accessible :login, :email, :name, :password, :password_confirmation, :japanese_name, :client_ip, :initials
 
 
 
@@ -49,6 +49,17 @@ class User < ActiveRecord::Base
 
   def remember_me
     remember_me_for 2.years
+  end
+
+  def initials
+    @initials ||= self.name.split(/ /).map{|s| puts "initials called";s[0].chr}.join("").upcase
+  end
+
+  def initials=(value)
+    @initials ||= self.initials
+    if @initials != value and value != nil then
+      write_attribute :initials, value
+    end
   end
 
   protected
