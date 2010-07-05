@@ -11,7 +11,7 @@ class TasklistDemosController < ApplicationController
     if session[:filter] == "Active"
       @tasklist_demos = TasklistDemo.find(:all, 
                                           :conditions => ["status != 'Closed' or status is null"],
-                                          :order => "assignee DESC, deadline ASC")
+                                          :order => "assignee DESC, deadline ASC, updated_at ASC")
     else
       @tasklist_demos = TasklistDemo.find(:all, 
                                           :conditions => ["status = '" + session[:filter] + "'"],

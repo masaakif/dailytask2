@@ -53,7 +53,7 @@ a:hover { color: #fff; background-color:#000; }
 }
 
 table, th, tr,td {
-  border: 1px solid #999999;
+  border: 1px solid #777777;
   border-collapse: collapse;
   empty-cells: show;
 }
