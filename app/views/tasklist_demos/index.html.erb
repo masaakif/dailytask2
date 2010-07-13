@@ -10,6 +10,7 @@
 <br/><br/>
 <table>
   <tr style="">
+    <th width=5>#</th>
     <th width=30>Registered</th>
     <th width=30>Deadline</th>
     <th width=350>Description</th>
@@ -22,6 +23,7 @@
 <% @tasklist_demos.each do |tasklist_demo| %>
   <% urgent = ((tasklist_demo.deadline < DateTime.now && tasklist_demo.status != "Closed") ? "urgent" : nil) if tasklist_demo.deadline? %>
   <tr class="<%=h tasklist_demo.status == "Closed" ? tasklist_demo.status : tasklist_demo.assignee -%>">
+    <td><%= h tasklist_demo.id %></td>
     <td><%=h tasklist_demo.registered.strftime("%Y/%m/%d %H:%M") if tasklist_demo.registered? %></td>
     <td<%= " class='" + urgent +"'" if urgent != nil -%>><%=h tasklist_demo.deadline.strftime("%Y/%m/%d") if tasklist_demo.deadline? %></td>
     <td><%=hbr tasklist_demo.description%></td>
