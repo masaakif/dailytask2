@@ -14,8 +14,8 @@
     <th width=30>Registered</th>
     <th width=30>Deadline</th>
     <th width=350>Description</th>
-    <th width=30>要時</th>
-    <th>担当</th>
+    <th width=30>ETA</th>
+    <th>Assign</th>
     <th width=150>Status Text</th>
     <th>Status</th>
   </tr>
@@ -31,14 +31,14 @@
     <td><%=h tasklist_demo.assignee %></td>
     <td><%=hbr tasklist_demo.statustext %></td>
     <td><%=h tasklist_demo.status %></td>
-    <td><%= link_to "閲", tasklist_demo %></td>
-    <td><%= link_to '編', edit_tasklist_demo_path(tasklist_demo) %></td>
+    <td><%= link_to "View", tasklist_demo %></td>
+    <td><%= link_to 'Edit', edit_tasklist_demo_path(tasklist_demo) %></td>
     <% if session[:filter] == "Active" %>
-      <td><%= link_to '閉', {:controller => "tasklist_demos", :action => "close", :id => tasklist_demo.id} %></td>
+      <td><%= link_to 'Close', {:controller => "tasklist_demos", :action => "close", :id => tasklist_demo.id} %></td>
     <% elsif session[:filter] == "Closed" %>
-      <td><%= link_to '開', {:controller => "tasklist_demos", :action => "reopen", :id => tasklist_demo.id} %></td>
+      <td><%= link_to 'Open', {:controller => "tasklist_demos", :action => "reopen", :id => tasklist_demo.id} %></td>
     <% end %>
-    <td><%= link_to '捨', tasklist_demo, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Remove', tasklist_demo, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>

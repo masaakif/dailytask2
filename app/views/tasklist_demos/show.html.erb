@@ -12,7 +12,7 @@
     <td><%=hbr @tasklist_demo.description %></td>
   </tr>
   <tr>
-    <td>所要時間</td>
+    <td>Time Required</td>
     <td><%=h @tasklist_demo.time_required %> (hour)</td>
   </tr>
   <tr>
@@ -28,7 +28,7 @@
     <td><%=h @tasklist_demo.status %></td>
   </tr>
   <tr>
-    <td>最終更新者</td>
+    <td>Last action</td>
     <% if @tasklist_demo.updated_by? %>
       <td><%=h @tasklist_demo.updated_by %></td>
     <% else %>

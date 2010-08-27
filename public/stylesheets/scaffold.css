@@ -74,6 +74,10 @@ table.YT, tr.YT {
   background-color: #ee99ee;
 }
 
+table.KM, tr.KM {
+  background-color: #b0e0e6;
+}
+
 td.urgent {
   background-color: #ff0000;
   font-weight: bold;
